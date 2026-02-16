@@ -1,20 +1,51 @@
-# 📡 DeviceFlow Monitor (In Development)
+# 📡 DeviceFlow Monitor (Python Agent)
 
-DeviceFlow Monitor is a real-time, cloud-hosted dashboard for visualizing resource usage from multiple devices.  
-Built with **.NET 8**, **Azure SignalR**, and **React/TypeScript**, the project demonstrates how to stream live telemetry—CPU load, memory usage, battery, and online status—directly to a responsive web interface.
-
-The current version uses **simulated telemetry** to show the complete SignalR/WebSocket flow.  
-Future updates will include lightweight device agents that send real system metrics to the backend.
+DeviceFlow Monitor is a lightweight, cross-platform system monitoring agent built with **Python**. It collects real-time system metrics (CPU, Memory, Disk, Network) and transmits them to a cloud backend via **AWS API Gateway**.
 
 ## 🚀 Features
-- Real-time WebSocket updates (Azure SignalR)
-- Multi-device simulated telemetry
-- React + TypeScript + Material-UI frontend
-- Azure App Service deployment
-- GitHub Actions CI/CD pipeline
+
+*   **Real-time Monitoring**: Captures system performance metrics every few seconds.
+*   **Resilient Data Transmission**:
+    *   Buffering: Data is stored locally in a **SQLite** database (`device_flow_monitor.db`) if the network is unavailable or the API is unreachable.
+    *   Retry Logic: Automatically attempts to resend buffered metrics when the connection is restored.
+*   **Cross-Platform**: Runs on Windows, Linux, and macOS (powered by `psutil`).
+*   **Cloud Native**: Designed to feed data into a serverless AWS backend.
 
 ## 🛠️ Tech Stack
-- **Backend:** .NET 8, ASP.NET Core, SignalR
-- **Frontend:** React, TypeScript, Material-UI
-- **Cloud:** Azure App Services, Azure SignalR Service
-- **DevOps:** GitHub Actions
+
+*   **Language**: Python 3.x
+*   **Libraries**:
+    *   `psutil`: System monitoring
+    *   `requests`: HTTP API communication
+    *   `sqlite3`: Local data persistence
+*   **Cloud Integration**: AWS (API Gateway -> Lambda -> DynamoDB/TimeStream)
+
+## 📦 Setup & Usage
+
+### 1. Prerequisites
+*   Python 3.8 or higher installed.
+
+### 2. Installation
+Navigate to the `ClientApp` directory and install the required dependencies:
+
+```bash
+cd ClientApp
+pip install -r requirements.txt
+```
+
+### 3. Configuration
+Open `ClientApp/app.py` and configure your AWS endpoint:
+
+```python
+API_URL = "https://your-api-id.execute-api.region.amazonaws.com/stage/resource"
+API_KEY = "your-api-key-here"
+```
+
+### 4. Running the Agent
+Start the monitor:
+
+```bash
+python app.py
+```
+
+The agent will begin collecting metrics and attempting to send them to the configured API URL. Check the console output for status logs.

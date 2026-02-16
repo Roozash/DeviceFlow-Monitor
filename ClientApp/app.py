@@ -133,26 +133,26 @@ def main():
     db_mgr.init_db()
     seq = 0
     while True:
-        seq += 1
         try:
             ts_ms, payload_json = get_metrics_json()
         except Exception as e:
-            print(seq, "Error getting metrics:", e)
-            return
+            print("Error getting metrics:", e)
+            time.sleep(5)
+            continue
 
+        seq += 1
+        
+        # Try to post to AWS
         if post_sample(payload_json, seq, ts_ms):
-            print(seq, "Posted sample successfully")
+            print(f"Posted sample {seq} successfully")
         else:
-            print(seq, "Failed to post sample")
-            print(seq, "Saving metrics at", ts_ms)
+            print(f"Failed to post sample {seq}, saving to local DB...")
             try:
                 db_mgr.save_metrics("device_001", ts_ms, seq, payload_json)
-                print(seq, "Metrics saved successfully.")
+                print("Metrics saved locally.")
             except Exception as e:
-                print(seq, "Error saving metrics:", e)
-            
-        # Save to DB
-
+                print("Error saving metrics:", e)
+        
         time.sleep(5)
 
 
