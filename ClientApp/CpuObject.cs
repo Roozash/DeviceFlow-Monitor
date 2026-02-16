@@ -16,13 +16,14 @@ public class CpuObject
 { 
     "LoadPercentage",         // Current usage %
     "CurrentClockSpeed",      // Current speed (MHz)
+    "CpuStatus",
     "Name",                   // Full model name
     "NumberOfCores",          // Physical cores
     "NumberOfLogicalProcessors", // Threads
     "Architecture",           // x64, x86, ARM64
     "Manufacturer",           // Intel, AMD
     "MaxClockSpeed",          // Max design speed
-    "CpuStatus"               // Health status code
+                   // Health status code
 };
     public DateTime Timestamp { get; set; }
     public string LoadPercentage { get; set; }

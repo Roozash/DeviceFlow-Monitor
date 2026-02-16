@@ -12,10 +12,10 @@ public class BatteryObject
         return WinName;
     }
     
-    public List<string> batteryProperties = new List<string> 
+    public List<string> Properties = new List<string> 
 { 
-    "EstimatedChargeRemaining", // Percentage %
     "BatteryStatus",            // Code (Charging/Discharging)
+    "EstimatedChargeRemaining", // Percentage %
     "EstimatedRunTime",         // Minutes left
     "TimeOnBattery",            // Seconds on battery
     // "DesignCapacity",           // New capacity
